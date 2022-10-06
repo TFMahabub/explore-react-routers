@@ -9,6 +9,7 @@ import ContactUs from './Components/MainSection/ContactUs';
 import HomePage from './Components/HomePage';
 import Main from './Components/MainSection/Main';
 import Friends from './Components/MainSection/Friends';
+import FriendDetails from './Components/MainSection/FriendDetails';
 
 function App() {
   const routers = createBrowserRouter([
@@ -24,6 +25,12 @@ function App() {
         return fetch('https://jsonplaceholder.typicode.com/users')
        },
        element: <Friends></Friends>},
+       {path:'/friend/:friendId',
+        loader: async ({params}) =>{
+          return fetch(`https://jsonplaceholder.typicode.com/users/${params.friendId}`)
+        },
+        element:<FriendDetails></FriendDetails>
+      },
       {path:'*', element: <div>Not found 404</div>}
     ]
   },
