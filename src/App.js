@@ -1,23 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import Header from './Components/Header/Header';
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Product from './Components/MainSection/Product';
+import About from './Components/MainSection/About';
+import ContactUs from './Components/MainSection/ContactUs';
+import HomePage from './Components/HomePage';
+import Main from './Components/MainSection/Main';
+import Friends from './Components/MainSection/Friends';
 
 function App() {
+  const routers = createBrowserRouter([
+    {path:'/', 
+    element: <Main></Main>,
+    children:[
+      {path: '/', element: <HomePage></HomePage>},
+      {path:'/product', element: <Product></Product>},
+      {path:'/about', element: <About></About>},
+      {path:'/contact_us', element: <ContactUs></ContactUs>},
+      {path:'/friends',
+       loader: async () =>{
+        return fetch('https://jsonplaceholder.typicode.com/users')
+       },
+       element: <Friends></Friends>},
+      {path:'*', element: <div>Not found 404</div>}
+    ]
+  },
+  ])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <RouterProvider router= {routers} />
     </div>
   );
 }
