@@ -1,7 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import Header from './Components/Header/Header';
-import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Product from './Components/MainSection/Product';
 import About from './Components/MainSection/About';
@@ -10,6 +8,8 @@ import HomePage from './Components/HomePage';
 import Main from './Components/MainSection/Main';
 import Friends from './Components/MainSection/Friends';
 import FriendDetails from './Components/MainSection/FriendDetails';
+import Posts from './Components/MainSection/Posts';
+import PostDetails from './Components/MainSection/PostDetails';
 
 function App() {
   const routers = createBrowserRouter([
@@ -30,6 +30,21 @@ function App() {
           return fetch(`https://jsonplaceholder.typicode.com/users/${params.friendId}`)
         },
         element:<FriendDetails></FriendDetails>
+      },
+
+      {
+        path:'/posts',
+        loader: async () =>{
+          return fetch('https://jsonplaceholder.typicode.com/posts')
+        },
+        element: <Posts></Posts>
+      },
+      {
+        path:'/post/:postId',
+        loader: async ({params}) =>{
+          return fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`)
+        },
+        element: <PostDetails></PostDetails>
       },
       {path:'*', element: <div>Not found 404</div>}
     ]
